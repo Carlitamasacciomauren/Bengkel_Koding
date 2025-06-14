@@ -198,6 +198,8 @@ if submitted:
 
     # Prediksi
     prediction = model.predict(scaled_input)[0]
+    result = obesity_map.get(prediction, "Unknown")
+    st.success(f"🎯 Hasil Prediksi: **{result}**")
 
     # Mappings hasil prediksi
     obesity_map = {
