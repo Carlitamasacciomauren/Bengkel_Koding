@@ -7,7 +7,7 @@ Original file is located at
     https://colab.research.google.com/drive/1qTDXPp-0PtKKHHyI8oHOr9WW63IIbrT-
 """
 
-!pip install streamlit
+#!pip install streamlit
 
 import streamlit as st
 import pandas as pd
@@ -17,6 +17,8 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+
+#!pip install imblearn
 
 # Load data
 df = pd.read_csv("ObesityDataSet.csv")
