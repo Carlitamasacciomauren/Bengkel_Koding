@@ -142,10 +142,8 @@ joblib.dump(best_rf, "rf_tuned_model.pkl")
 model = joblib.load("rf_tuned_model.pkl")
 scaler = joblib.load("scaler.pkl")
 
-
-
     # Mappings hasil prediksi
-    obesity_map = {
+        obesity_map = {
         0: 'Insufficient Weight',
         1: 'Normal Weight',
         2: 'Overweight Level I',
