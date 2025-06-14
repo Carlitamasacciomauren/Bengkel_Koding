@@ -137,15 +137,29 @@ y_pred_best = best_rf.predict(X_test)
 # Simpan model terbaik
 joblib.dump(best_rf, "rf_tuned_model.pkl")
 
-# Judul aplikasi
-st.title("Prediksi Kategori Obesitas")
-st.write("Silakan lengkapi data diri Anda untuk mengetahui kategori obesitas.")
 
 # Load model dan scaler
 model = joblib.load("rf_tuned_model.pkl")
 scaler = joblib.load("scaler.pkl")
 
-# Input form
+
+
+    # Mappings hasil prediksi
+    obesity_map = {
+        0: 'Insufficient Weight',
+        1: 'Normal Weight',
+        2: 'Overweight Level I',
+        3: 'Overweight Level II',
+        4: 'Obesity Type I',
+        5: 'Obesity Type II',
+        6: 'Obesity Type III'
+    }
+
+    # Judul aplikasi
+    st.title("Prediksi Kategori Obesitas")
+    st.write("Silakan lengkapi data diri Anda untuk mengetahui kategori obesitas.")
+
+    # Input form
 with st.form("input_form"):
     age = st.number_input("Umur (tahun)", min_value=1, max_value=120)
     height = st.number_input("Tinggi Badan (meter)", min_value=0.5, max_value=2.5)
@@ -183,7 +197,7 @@ if submitted:
         'family_history_with_overweight': [family_history]
     })
 
-    # Encode kategori
+      # Encode kategori
     input_data.replace({
         'CAEC': {'Never': 0, 'Sometimes': 1, 'Frequently': 2, 'Always': 3},
         'SMOKE': {'No': 0, 'Yes': 1},
@@ -198,19 +212,7 @@ if submitted:
 
     # Prediksi
     prediction = model.predict(scaled_input)[0]
-    result = obesity_map.get(prediction, "Unknown")
-    st.success(f"🎯 Hasil Prediksi: **{result}**")
 
-    # Mappings hasil prediksi
-    obesity_map = {
-        0: 'Insufficient Weight',
-        1: 'Normal Weight',
-        2: 'Overweight Level I',
-        3: 'Overweight Level II',
-        4: 'Obesity Type I',
-        5: 'Obesity Type II',
-        6: 'Obesity Type III'
-    }
 
     result = obesity_map.get(prediction, "Unknown")
     st.success(f"Kategori Obesitas Prediksi: **{result}**")
