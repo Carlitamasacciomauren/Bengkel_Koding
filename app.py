@@ -94,6 +94,9 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
 import joblib
 
+# Setelah training selesai
+joblib.dump(X.columns.tolist(), "feature_order.pkl")
+
 # Split data
 X_train, X_test, y_train, y_test = train_test_split(X_scaled, y_res, test_size=0.2, random_state=42)
 
@@ -202,15 +205,9 @@ if submitted:
                    'Automobile': 2, 'Motorbike': 3, 'Bike': 4}           # ← Tambahkan
     }, inplace=True)
 
-    # Pastikan urutan kolom sesuai dengan saat pelatihan model
-    training_columns = [
-        'Age', 'Height', 'Weight', 'FCVC', 'NCP', 'CH2O', 'FAF', 'TUE',
-        'CAEC', 'SMOKE', 'SCC', 'FAVC', 'Gender', 'family_history_with_overweight',
-        'CALC', 'MTRANS'  # ← Tambahan ini penting jika model memang menggunakannya
-    ]
-
-    
-    input_data = input_data[training_columns]
+    # Pastikan urutan kolom dulu
+    feature_order = joblib.load("feature_order.pkl")
+    input_data = input_data[feature_order]
 
     # Scaling - harus dalam bentuk numpy array atau DataFrame numerik
     scaled_input = scaler.transform(input_data)
@@ -246,10 +243,6 @@ if submitted:
 
     result = obesity_map.get(prediction, "Unknown")
     st.success(f"Kategori Obesitas Prediksi: *{result}*")
-
-    # Pastikan urutan kolom dulu
-    feature_order = joblib.load("feature_order.pkl")
-    input_data = input_data[feature_order]
     
     # Baru kemudian scaling
     scaled_input = scaler.transform(input_data)
