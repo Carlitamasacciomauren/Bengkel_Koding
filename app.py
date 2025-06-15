@@ -220,6 +220,6 @@ if submitted:
 
     result = obesity_map.get(prediction, "Unknown")
     st.success(f"Kategori Obesitas Prediksi: *{result}*")
-    })
+   
 
    
