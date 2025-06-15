@@ -183,7 +183,7 @@ if submitted:
         'family_history_with_overweight': [family_history]
     })
 
-    # Encode kategori
+    # Encode kategori seperti saat training
     input_data.replace({
         'CAEC': {'Never': 0, 'Sometimes': 1, 'Frequently': 2, 'Always': 3},
         'SMOKE': {'No': 0, 'Yes': 1},
@@ -193,14 +193,21 @@ if submitted:
         'family_history_with_overweight': {'No': 0, 'Yes': 1}
     }, inplace=True)
 
-    # Scaling
+    # Pastikan urutan kolom sesuai dengan saat pelatihan model
+    training_columns = [
+        'Age', 'Height', 'Weight', 'FCVC', 'NCP', 'CH2O', 'FAF', 'TUE',
+        'CAEC', 'SMOKE', 'SCC', 'FAVC', 'Gender', 'family_history_with_overweight'
+    ]
+    
+    input_data = input_data[training_columns]
+
+    # Scaling - harus dalam bentuk numpy array atau DataFrame numerik
     scaled_input = scaler.transform(input_data)
 
     # Prediksi
     prediction = model.predict(scaled_input)[0]
 
-
-    # Mappings hasil prediksi
+    # Mapping hasil prediksi
     obesity_map = {
         0: 'Insufficient Weight',
         1: 'Normal Weight',
@@ -213,3 +220,6 @@ if submitted:
 
     result = obesity_map.get(prediction, "Unknown")
     st.success(f"Kategori Obesitas Prediksi: *{result}*")
+    })
+
+   
