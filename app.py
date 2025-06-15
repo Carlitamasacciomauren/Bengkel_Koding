@@ -180,8 +180,10 @@ if submitted:
         'SCC': [scc],
         'FAVC': [favc],
         'Gender': [gender],
-        'family_history_with_overweight': [family_history]
-    })
+        'family_history_with_overweight': [family_history],
+        'CALC': [calc],            # ← Tambahkan baris ini
+        'MTRANS': [mtrans]         # ← Tambahkan baris ini
+   })
 
     # Encode kategori seperti saat training
     input_data.replace({
@@ -190,7 +192,10 @@ if submitted:
         'SCC': {'No': 0, 'Yes': 1},
         'FAVC': {'No': 0, 'Yes': 1},
         'Gender': {'Female': 0, 'Male': 1},
-        'family_history_with_overweight': {'No': 0, 'Yes': 1}
+        'family_history_with_overweight': {'No': 0, 'Yes': 1},
+        'CALC': {'No': 0, 'Sometimes': 1, 'Frequently': 2, 'Always': 3},  # ← Tambahkan
+        'MTRANS': {'Public Transportation': 0, 'Walking': 1, 
+                   'Automobile': 2, 'Motorbike': 3, 'Bike': 4}           # ← Tambahkan
     }, inplace=True)
 
     # Pastikan urutan kolom sesuai dengan saat pelatihan model
@@ -220,6 +225,12 @@ if submitted:
 
     result = obesity_map.get(prediction, "Unknown")
     st.success(f"Kategori Obesitas Prediksi: *{result}*")
+
+    # Muat urutan kolom
+    feature_order = joblib.load("feature_order.pkl")
+
+    # Setelah encode, pastikan urutan sama
+    input_data = input_data[feature_order]
    
 
    
