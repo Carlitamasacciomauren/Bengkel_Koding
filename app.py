@@ -215,8 +215,23 @@ if submitted:
     # Scaling - harus dalam bentuk numpy array atau DataFrame numerik
     scaled_input = scaler.transform(input_data)
 
+if submitted:
+    # Mapping input
+    ...
+
+    # Mapping ke numerik (sudah benar)
+    input_data.replace({...}, inplace=True)
+
+    # ⬇ URUTAN KOLOM HARUS SESUAI SEBELUM TRANSFORM
+    feature_order = joblib.load("feature_order.pkl")
+    input_data = input_data[feature_order]
+
+    # Transform
+    scaled_input = scaler.transform(input_data)
+
     # Prediksi
     prediction = model.predict(scaled_input)[0]
+
 
     # Mapping hasil prediksi
     obesity_map = {
@@ -232,11 +247,13 @@ if submitted:
     result = obesity_map.get(prediction, "Unknown")
     st.success(f"Kategori Obesitas Prediksi: *{result}*")
 
-    # Muat urutan kolom
+    # Pastikan urutan kolom dulu
     feature_order = joblib.load("feature_order.pkl")
-
-    # Setelah encode, pastikan urutan sama
     input_data = input_data[feature_order]
+    
+    # Baru kemudian scaling
+    scaled_input = scaler.transform(input_data)
+
    
 
    
