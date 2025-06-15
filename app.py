@@ -162,6 +162,10 @@ with st.form("input_form"):
     gender = st.selectbox("Jenis Kelamin", ["Female", "Male"])
     family_history = st.selectbox("Riwayat keluarga kelebihan berat badan", ["No", "Yes"])
 
+    calc = st.selectbox("Konsumsi alkohol", ["No", "Sometimes", "Frequently", "Always"])
+    mtrans = st.selectbox("Transportasi yang digunakan", ["Public Transportation", "Walking", "Automobile", "Motorbike", "Bike"])
+
+
     submitted = st.form_submit_button("Prediksi")
 
 if submitted:
@@ -201,8 +205,10 @@ if submitted:
     # Pastikan urutan kolom sesuai dengan saat pelatihan model
     training_columns = [
         'Age', 'Height', 'Weight', 'FCVC', 'NCP', 'CH2O', 'FAF', 'TUE',
-        'CAEC', 'SMOKE', 'SCC', 'FAVC', 'Gender', 'family_history_with_overweight'
+        'CAEC', 'SMOKE', 'SCC', 'FAVC', 'Gender', 'family_history_with_overweight',
+        'CALC', 'MTRANS'  # ← Tambahan ini penting jika model memang menggunakannya
     ]
+
     
     input_data = input_data[training_columns]
 
