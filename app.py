@@ -148,7 +148,7 @@ st.write("Silakan lengkapi data diri Anda untuk mengetahui kategori obesitas.")
 model = joblib.load("rf_tuned_model.pkl")
 scaler = joblib.load("scaler.pkl")
 
-# Input form
+# proses pembuatan antarmuka input pengguna dalam aplikasi Streamlit.
 with st.form("input_form"):
     age = st.number_input("Umur (tahun)", min_value=1, max_value=120)
     height = st.number_input("Tinggi Badan (meter)", min_value=0.5, max_value=2.5)
@@ -188,8 +188,8 @@ if submitted:
         'FAVC': [favc],
         'Gender': [gender],
         'family_history_with_overweight': [family_history],
-        'CALC': [calc],            # ← Tambahkan baris ini
-        'MTRANS': [mtrans]         # ← Tambahkan baris ini
+        'CALC': [calc],            
+        'MTRANS': [mtrans]         
    })
 
     # Encode kategori seperti saat training
